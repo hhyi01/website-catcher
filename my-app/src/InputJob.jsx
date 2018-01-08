@@ -7,8 +7,7 @@ class InputJob extends Component {
     super(props);
     this.state = { 
       job_id: '',
-      job_status: '',
-      html: ''
+      job_status: ''
     };
     this.handleChangeJob = this.handleChangeJob.bind(this);
     this.handleSubmitJob = this.handleSubmitJob.bind(this);
@@ -20,6 +19,7 @@ class InputJob extends Component {
   }
 
   handleSubmitJob(event) {
+
     this.sendJob();
     event.preventDefault();
     event.target.reset();
@@ -36,9 +36,11 @@ class InputJob extends Component {
       success: data => {
         console.log('job sent, from post req', data[0].html);
         if (data.length > 0) {
-          this.setState({ job_status: data[0].job_status,
-            html: data[0].html
-          });
+          if (data[0].job_status === 'complete') {
+            window.location.href = "http://localhost:8080/jobResult?job_id=" + jobID;
+          } else {
+            this.setState({ job_status: data[0].job_status });
+          }
         } else {
           this.setState({ job_status: 'We don\'t have that job. Could you add the url?' })
         }

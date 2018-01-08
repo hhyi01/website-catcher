@@ -32,6 +32,27 @@ app.post('/url', (req, res) => {
   })
 });
 
+app.get('/jobResult', (req, res) => {
+  // lookup job_id
+  db.getJobResult(req.query['job_id'])
+  .then(result => {
+    if (result.length > 0) {
+      if (result[0].job_status === 'complete' && result[0].mime_type.includes('text/html')) {
+        const decoder = new StringDecoder('utf8');
+        res.status(201);
+        res.write(decoder.end(Buffer.from(result[0].html)));
+        return;
+      }
+    }
+    result.error = "not found";
+    // TODO : Error?
+    res.status(201).json(result);
+  })
+  .catch(error => {
+    res.status(400).json(error);
+  })
+});
+
 app.post('/jobStatus', (req, res) => {
   // lookup job_id
   db.getJobStatus(req.body)

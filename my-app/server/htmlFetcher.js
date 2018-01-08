@@ -26,8 +26,8 @@ const getCreatedUnfinishedJob = () => {
   })
 }
 
+// scheduled task to get html of first in created job
 cron.schedule('* * * * *', () => {
-  console.log('running a task every minute');
   getCreatedUnfinishedJob();
 });
 
@@ -51,8 +51,8 @@ const getInProgressUnfinishedJob = () => {
   })
 }
 
+// scheduled task to get html of first in 'in progress' jobs that aren't completed after 2 minutes
 cron.schedule('*/2 * * * *', function(){
-  console.log('running a task every two minutes');
   getInProgressUnfinishedJob();
 });
 

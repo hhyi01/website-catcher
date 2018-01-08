@@ -38,6 +38,15 @@ const getJobStatus = ({job_id}) => {
   })
 }
 
+const getJobResult = (job_id) => {
+  return connection.queryAsync(`select job_status, mime_type, html from jobs where job_id = ?`, [job_id])
+  .then(results => results)
+  .catch(err => {
+    console.error(err);
+    return err;
+  })
+}
+
 const updateJobStatus = (status, job_id) => {
   return connection.queryAsync(`update jobs set job_status = ? where job_id = ?`, [status, job_id])
   .then(results => results)
@@ -78,6 +87,7 @@ const checkURLExists = (url) => {
 module.exports = {
   addJob,
   getJobStatus,
+  getJobResult,
   jobFailed,
   updateJobStatus,
   getFirstUnfinishedJob,
