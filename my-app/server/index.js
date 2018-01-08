@@ -52,23 +52,6 @@ app.post('/jobStatus', (req, res) => {
   })
 });
 
-// test endpoint
-// app.post('/getHtml', (req, res) => {
-//   var host = url.parse(req.body.url).host;
-//   console.log(host);
-//   db.checkURLExists(host)
-//   .then(result => {
-//     console.log('api ', result);
-//     // hf.fetchHtml(result[0])
-
-//     res.status(201).json(result);
-//   })
-//   .catch(error => {
-//     console.log(error);
-//     res.status(400).json(error);
-//   })
-// });
-
 app.listen(process.env.PORT || 8080, () => {
   console.log('Listening on Port 8080!');
 });
