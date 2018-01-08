@@ -8,6 +8,7 @@ User submits www.google.com to your endpoint. The user gets back a job id. Your 
 * npm install
 * npm start
 * npm run server
+* mysql -u root -p < schema.sql
 
 #### Usage:
 * Enter URL (e.g. www.google.com) and click submit, returns a job ID for lookup
