@@ -39,7 +39,8 @@ app.post('/jobStatus', (req, res) => {
   db.getJobStatus(req.body)
   .then(result => {
     if (result.length > 0) {
-      if (result[0].job_status === 'complete') {
+      console.log(result)
+      if (result[0].job_status === 'complete' && result[0].mime_type.includes('text/html')) {
         const decoder = new StringDecoder('utf8');
         result[0].html = decoder.end(Buffer.from(result[0].html));
       }

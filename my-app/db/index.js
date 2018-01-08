@@ -30,7 +30,7 @@ const getFirstUnfinishedJob = job_status => {
 }
 
 const getJobStatus = ({job_id}) => {
-  return connection.queryAsync(`select job_status, html from jobs where job_id = ?`, [`${job_id}`])
+  return connection.queryAsync(`select job_status, mime_type, html from jobs where job_id = ?`, [`${job_id}`])
   .then(results => results)
   .catch(err => {
     console.error(err);

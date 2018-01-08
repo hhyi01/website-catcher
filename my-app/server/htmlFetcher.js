@@ -49,7 +49,7 @@ const getInProgressUnfinishedJob = () => {
 
 // cron.schedule('*/2 * * * *', function(){
 //   console.log('running a task every two minutes');
-  
+//   getInProgressUnfinishedJob();
 // });
 
 const fetchHtml = ({job_id, userAgent, url}) => {

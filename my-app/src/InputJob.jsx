@@ -58,7 +58,7 @@ class InputJob extends Component {
           <input type="text" job_id={this.state.job_id} onChange={this.handleChangeJob} />
         </label>
         <input type="submit" url="Submit" />
-          <ShowJobStatus job_status={this.state.job_status} html={this.state.html} />
+          <ShowJobStatus job_status={this.state.job_status} html={this.state.html} job_id={this.state.job_id} />
       </form>
     )
   }

@@ -58,6 +58,7 @@ class InputURL extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmitURL}>
+      <br />
         <label>
           Enter URL:
           <input type="text" url={this.state.url} onChange={this.handleChangeURL} />
