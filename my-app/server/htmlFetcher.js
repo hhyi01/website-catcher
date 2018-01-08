@@ -36,9 +36,13 @@ const getInProgressUnfinishedJob = () => {
   let job;
   db.getFirstUnfinishedJob('in progress')
   .then(results => {
-    job = results[0];
-    // then call fetchHtml here
-    fetchHtml(job);
+    if (results.length > 0) {
+      job = results[0];
+      if (Math.abs(new Date(job.job_created) - new Date(job.last_updated))/1000/60 > 2) {
+        // then call fetchHtml here
+        fetchHtml(job);
+      }
+    } 
   })
   .catch(err => {
     console.error(err);
@@ -47,10 +51,10 @@ const getInProgressUnfinishedJob = () => {
   })
 }
 
-// cron.schedule('*/2 * * * *', function(){
-//   console.log('running a task every two minutes');
-//   getInProgressUnfinishedJob();
-// });
+cron.schedule('*/2 * * * *', function(){
+  console.log('running a task every two minutes');
+  getInProgressUnfinishedJob();
+});
 
 const fetchHtml = ({job_id, userAgent, url}) => {
   // set up request for url

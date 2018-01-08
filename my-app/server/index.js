@@ -16,7 +16,6 @@ app.post('/url', (req, res) => {
   // add url to job queue
   const ua = req.headers['user-agent'];
   const url = req.body.url;
-  console.log(ua, url);
   db.checkURLExists(url)
   .then(result => {
     if (result.length > 0) {
@@ -29,7 +28,6 @@ app.post('/url', (req, res) => {
     }
   })
   .catch(error => {
-    console.log(error);
     res.status(400).json(error);
   })
 });
@@ -39,7 +37,6 @@ app.post('/jobStatus', (req, res) => {
   db.getJobStatus(req.body)
   .then(result => {
     if (result.length > 0) {
-      console.log(result)
       if (result[0].job_status === 'complete' && result[0].mime_type.includes('text/html')) {
         const decoder = new StringDecoder('utf8');
         result[0].html = decoder.end(Buffer.from(result[0].html));
@@ -48,7 +45,6 @@ app.post('/jobStatus', (req, res) => {
     res.status(201).json(result);
   })
   .catch(error => {
-    console.log(error);
     res.status(400).json(error);
   })
 });

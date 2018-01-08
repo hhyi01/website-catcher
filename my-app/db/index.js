@@ -20,8 +20,8 @@ const addJob = (url, userAgent) => {
 }
 
 const getFirstUnfinishedJob = job_status => {
-  return connection.queryAsync(`select job_id, user_agent, url from jobs where job_status = ? \
-    order by job_id limit 1`, [job_status])
+  return connection.queryAsync(`select job_id, user_agent, url, job_created, last_updated from jobs \
+    where job_status = ? order by job_id limit 1`, [job_status])
   .then(results => results)
   .catch(err => {
     console.error(err);
