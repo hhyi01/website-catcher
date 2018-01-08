@@ -4,6 +4,8 @@ const db = require('../db/index');
 const Promise = require('bluebird');
 const hf = require('./htmlFetcher');
 const url = require('url');
+const utf8 = require('utf8');
+const { StringDecoder } = require('string_decoder');
 Promise.promisifyAll(hf);
 
 const app = Express();
@@ -33,10 +35,15 @@ app.post('/url', (req, res) => {
 });
 
 app.post('/jobStatus', (req, res) => {
-  console.log(req.body);
   // lookup job_id
   db.getJobStatus(req.body)
   .then(result => {
+    if (result.length > 0) {
+      if (result[0].job_status === 'complete') {
+        const decoder = new StringDecoder('utf8');
+        result[0].html = decoder.end(Buffer.from(result[0].html));
+      }
+    }
     res.status(201).json(result);
   })
   .catch(error => {
@@ -46,21 +53,21 @@ app.post('/jobStatus', (req, res) => {
 });
 
 // test endpoint
-app.post('/getHtml', (req, res) => {
-  var host = url.parse(req.body.url).host;
-  console.log(host);
-  db.checkURLExists(host)
-  .then(result => {
-    console.log('api ', result);
-    // hf.fetchHtml(result[0])
+// app.post('/getHtml', (req, res) => {
+//   var host = url.parse(req.body.url).host;
+//   console.log(host);
+//   db.checkURLExists(host)
+//   .then(result => {
+//     console.log('api ', result);
+//     // hf.fetchHtml(result[0])
 
-    res.status(201).json(result);
-  })
-  .catch(error => {
-    console.log(error);
-    res.status(400).json(error);
-  })
-});
+//     res.status(201).json(result);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//     res.status(400).json(error);
+//   })
+// });
 
 app.listen(process.env.PORT || 8080, () => {
   console.log('Listening on Port 8080!');

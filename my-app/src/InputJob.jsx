@@ -7,7 +7,8 @@ class InputJob extends Component {
     super(props);
     this.state = { 
       job_id: '',
-      job_status: ''
+      job_status: '',
+      html: ''
     };
     this.handleChangeJob = this.handleChangeJob.bind(this);
     this.handleSubmitJob = this.handleSubmitJob.bind(this);
@@ -33,9 +34,11 @@ class InputJob extends Component {
       data: JSON.stringify({ job_id: jobID }),
       contentType: 'application/JSON',
       success: data => {
-        console.log('job sent, from post req', data);
+        console.log('job sent, from post req', data[0].html);
         if (data.length > 0) {
-          this.setState({ job_status: data[0].job_status });
+          this.setState({ job_status: data[0].job_status,
+            html: data[0].html
+          });
         } else {
           this.setState({ job_status: 'We don\'t have that job. Could you add the url?' })
         }
@@ -55,7 +58,7 @@ class InputJob extends Component {
           <input type="text" job_id={this.state.job_id} onChange={this.handleChangeJob} />
         </label>
         <input type="submit" url="Submit" />
-          <ShowJobStatus job_status={this.state.job_status} />
+          <ShowJobStatus job_status={this.state.job_status} html={this.state.html} />
       </form>
     )
   }

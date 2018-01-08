@@ -7,14 +7,18 @@ const getCreatedUnfinishedJob = () => {
   let job;
   db.getFirstUnfinishedJob('created')
   .then(results => {
-    job = results[0];
-    // results[0] keys: job_id, user_agent, url
-    // call updateJobStatus(status, job_id) to 'in progress'
-    db.updateJobStatus('in progress', job.job_id)
-    .then(() => {
-      // call fetchHtml here
-      fetchHtml(job);
-    })
+    if (results.length > 0) {
+      job = results[0];
+      // results[0] keys: job_id, user_agent, url
+      // call updateJobStatus(status, job_id) to 'in progress'
+      db.updateJobStatus('in progress', job.job_id)
+      .then(() => {
+        // call fetchHtml here
+        fetchHtml(job);
+      })
+    } else {
+      console.log('No jobs to run right now.');
+    }
   })
   .catch(err => {
     console.error(err);

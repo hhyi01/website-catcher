@@ -4,6 +4,9 @@ const ShowJobStatus = (props) => (
   <div>
     <p>Status of your job:</p>
     <p>{props.job_status}</p>
+    <div>
+      {props.html}
+    </div>
   </div>
 )
 
